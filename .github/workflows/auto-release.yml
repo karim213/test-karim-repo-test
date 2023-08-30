@@ -1,0 +1,26 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - 'v*'
+
+jobs:
+  release:
+    if: github.event_name == 'push'  &&  github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest  
+    name: Release a new version
+    steps:  
+      - name: Checkout action repository
+        uses: actions/checkout@v3
+      - name: Create a new release
+        id: git-release
+        uses: OneCloudAutomation/git-release@v2
+        with:
+          auto_increment: true
+          auto_increment_level: patch
+          description: "Auto increase the version"
+          pre_release: false
+          update_major_release: true
+          token: TOKEN
